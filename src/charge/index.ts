@@ -2,6 +2,7 @@ import axios from 'axios'
 import * as docVal from 'cpf-cnpj-validator'
 import QRCode from 'qrcode'
 
+const dothomo = process.env.NODE_ENV === 'production' ? '' : '.hm'
 const envExpiracao = Number.parseInt(process.env.expiracao) || 600 // 10min=600s 10h=36000s
 const envChave = process.env.chave || 'testqrcode01@bb.com.br'
 const envDevAppKey = process.env.developer_application_key || ''
@@ -39,7 +40,7 @@ const criarCobrancaRaw = (jwt: string, criarCobrancaArgs: CriarCobrancaArgs, exp
 
   return axios({
     method: 'put',
-    url: `https://api.hm.bb.com.br/pix/v1/cobqrcode/?gw-dev-app-key=${devAppkey || envDevAppKey}`,
+    url: `https://api${dothomo}.bb.com.br/pix/v1/cobqrcode/?gw-dev-app-key=${devAppkey || envDevAppKey}`,
     headers,
     data
   })
@@ -101,7 +102,7 @@ const consultarPIXRaw = (jwt: string, txid: string, devAppkey?: string) => axios
     Authorization: `Bearer ${jwt}`,
     'Content-Type': 'application/json'
   },
-  url: `https://api.hm.bb.com.br/pix/v1/cob/${txid}?gw-dev-app-key=${devAppkey || envDevAppKey}`
+  url: `https://api${dothomo}.bb.com.br/pix/v1/cob/${txid}?gw-dev-app-key=${devAppkey || envDevAppKey}`
 })
 
 const consultarPIX = (jwt: string, txid: string, devAppkey?: string) => new Promise<{ txid: string; status: string; valor: number; documento?: string; nome?: string; descricao?: string; chave: string; validade: Date; }>((resolve, reject) => {

@@ -34,3 +34,5 @@ Veja os testes para mais exemplos
 ## Credenciais
 São necessárias `developer_application_key`, `basic_authorization` e `chave`,
 podem estar num arquivo .env
+
+Se não estiver em produção será usada a url de homologação

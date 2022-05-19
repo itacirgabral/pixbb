@@ -2,10 +2,11 @@ import axios from 'axios'
 import qs from 'qs'
 
 const envBasicAuthorization = process.env.basic_authorization || ''
+const dothomo = process.env.NODE_ENV === 'production' ? '' : '.hm'
 
 const gerarTokenRaw = (basic?: string) => axios({
   method: 'post',
-  url: 'https://oauth.hm.bb.com.br/oauth/token',
+  url: `https://oauth${dothomo}.bb.com.br/oauth/token`,
   headers: {
     'Content-Type': 'application/x-www-form-urlencoded',
     Authorization: basic || envBasicAuthorization
